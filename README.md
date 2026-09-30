@@ -18,5 +18,14 @@ AUTOSAR ECU development.
 Current lab: None
 Last session: None
 
-NEXT:
-Place first order for dev cards
+## Current state
+
+Current lab: Lab 01 — Debugger, CPU and assembler
+Hardware: Ordered 2026-09-30
+
+## NEXT
+When hardware arrives:
+1. Set up ESD work area
+2. Connect one NUCLEO-F446RE
+3. Verify ST-LINK connection
+4. Build and flash first minimal program
