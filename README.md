@@ -9,23 +9,18 @@ AUTOSAR ECU development.
 
 ## Progress
 [✓] Lab 1 - Debugger, CPU and assembler
-[ ] Lab 2 - Memory, stack, heap and linker
+[✓] Lab 1 - Debugger, CPU and assembler ] Lab 2 - Memory, stack, heap and linker
 [ ] Lab 3 - Interrupts
 [ ] Lab 4 - SPI polling
 ...
 
 ## Current state
-Current lab: None
-Last session: None
+Current lab: Lab3
+Last session: 2026-10-16
 
 ## Current state
 
-Current lab: Lab 01 — Debugger, CPU and assembler
-Hardware: Ordered 2026-09-30
+Current lab: Lab 03 — Interrupts
 
 ## NEXT
-When hardware arrives:
-1. Set up ESD work area
-2. Connect one NUCLEO-F446RE
-3. Verify ST-LINK connection
-4. Build and flash first minimal program
+Ask for startup prompt for lab 3.
