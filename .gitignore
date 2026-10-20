@@ -1,0 +1,13 @@
+# STM32CubeIDE build output
+**/Debug/
+**/Release/
+
+# Future Make/CMake build directories
+**/build/
+
+# Eclipse workspace metadata
+**/.metadata/
+
+# Operating system files
+Thumbs.db
+.DS_Store
