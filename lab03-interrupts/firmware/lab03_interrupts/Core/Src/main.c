@@ -43,8 +43,10 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-volatile uint32_t button_state = 0;
 volatile uint32_t background_counter = 0;
+volatile uint32_t button_interrupt_count = 0;
+static uint32_t last_handled_interrupt_count = 0U;
+volatile uint32_t loops_per_second = 0U;
 
 /* USER CODE END PV */
 
@@ -96,8 +98,8 @@ int main(void)
   /* Initialize leds */
   BSP_LED_Init(LED2);
 
-  /* Initialize User push-button without interrupt mode. */
-  BSP_PB_Init(BUTTON_USER, BUTTON_MODE_GPIO);
+  /* Initialize USER push-button, will be used to trigger an interrupt each time it's pressed.*/
+  BSP_PB_Init(BUTTON_USER, BUTTON_MODE_EXTI);
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
@@ -107,15 +109,12 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  button_state = BSP_PB_GetState(BUTTON_USER);
+	  uint32_t snapshot = button_interrupt_count;
 
-	  if (button_state != 0U)
+	  if (snapshot != last_handled_interrupt_count)
 	  {
-	      BSP_LED_On(LED2);
-	  }
-	  else
-	  {
-	      BSP_LED_Off(LED2);
+	      last_handled_interrupt_count = snapshot;
+	      BSP_LED_Toggle(LED2);
 	  }
 
 	  background_counter++;
@@ -202,6 +201,13 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+    if (GPIO_Pin == GPIO_PIN_13)
+    {
+        button_interrupt_count++;
+    }
+}
 
 /* USER CODE END 4 */
 

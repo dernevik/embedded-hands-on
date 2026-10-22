@@ -51,6 +51,8 @@
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+extern volatile uint32_t background_counter;
+extern volatile uint32_t loops_per_second;
 
 /* USER CODE END 0 */
 
@@ -187,6 +189,20 @@ void SysTick_Handler(void)
   /* USER CODE END SysTick_IRQn 0 */
   HAL_IncTick();
   /* USER CODE BEGIN SysTick_IRQn 1 */
+  static uint32_t elapsed_ticks = 0U;
+  static uint32_t previous_count = 0U;
+
+  elapsed_ticks++;
+
+  if (elapsed_ticks >= 1000U)
+  {
+      uint32_t current_count = background_counter;
+
+      loops_per_second = current_count - previous_count;
+
+      previous_count = current_count;
+      elapsed_ticks = 0U;
+  }
 
   /* USER CODE END SysTick_IRQn 1 */
 }
@@ -197,6 +213,20 @@ void SysTick_Handler(void)
 /* For the available peripheral interrupt handler names,                      */
 /* please refer to the startup file (startup_stm32f4xx.s).                    */
 /******************************************************************************/
+
+/**
+  * @brief This function handles EXTI line[15:10] interrupts.
+  */
+void EXTI15_10_IRQHandler(void)
+{
+  /* USER CODE BEGIN EXTI15_10_IRQn 0 */
+
+  /* USER CODE END EXTI15_10_IRQn 0 */
+  HAL_GPIO_EXTI_IRQHandler(USER_BUTTON_PIN);
+  /* USER CODE BEGIN EXTI15_10_IRQn 1 */
+
+  /* USER CODE END EXTI15_10_IRQn 1 */
+}
 
 /* USER CODE BEGIN 1 */
 
