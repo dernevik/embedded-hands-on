@@ -2,6 +2,10 @@
 **/Debug/
 **/Release/
 
+# STM32CubeIDE Settings
+**/.settings/com.st.stm32cube.ide.mcu.sfrview.prefs
+
+
 # Future Make/CMake build directories
 **/build/
 
