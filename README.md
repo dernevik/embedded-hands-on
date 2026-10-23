@@ -8,14 +8,15 @@ There are **15 agreed core labs** in two phases, plus an optional playground. Th
 
 ## Current state
 
-**As of 2026-10-18**
+**As of 2026-10-23**
 
-- **Completed:** Lab 1 and Lab 2, both approved by the course coordinator.
-- **Current:** Lab 3 — GPIO polling → interrupts. The separate instructor chat and detailed start prompt already exist. The IDE/board connection was confirmed ready on 2026-10-16; practical interrupt results have not yet been handed over.
-- **Next core topic after approval of Lab 3:** Lab 4 — SPI polling, with two NUCLEO-F446RE boards and a logic analyzer.
-- **No blocker:** The proven Windows / STM32CubeIDE / ST-LINK setup is sufficient for Lab 3. No Raspberry Pi, new shield or new MCU is required.
+- **Completed:** **Lab 1, Lab 2 and Lab 3** — accepted by the course coordinator after review of the instructor handoffs. Lab 3: A/B achieved; C achieved for a guided, requirement-specific event-coalescing challenge.
+- **Next core topic:** **Lab 4 — SPI polling**, connecting two NUCLEO-F446RE boards and observing physical transactions with a USB logic analyzer/PulseView.
+- **Lab 3 repository baseline:** known-good polling commit `fd96486`; working EXTI milestone `b73548c`; debug `-O0` restored in `feb6498`; preference-file ignore rule updated in `bf7baa7` (remote commits verified on 2026-10-23).
+- **Lab 3 documentation:** `lab03-interrupts/notes.md` and `README.md` were requested as separate instructor deliverables and were not present in the remote repo at this check. Their completion does not block approval.
+- **No blocker:** continue with the working Windows / CubeIDE / ST-LINK environment. No Raspberry Pi, new shield or new MCU is required for Lab 4.
 
-**NEXT:** Return to the existing **Lab 3 instructor chat** and follow its first small polling experiment. After completing Lab 3, bring `COURSE HANDOFF — LAB 3` to the course coordinator for an A/B/C review. Do not start Lab 4 merely because the setup works.
+**NEXT:** Finish the separate Lab 3 `notes.md` and `README.md` with the instructor if desired, then request the **Lab 4 — SPI polling start prompt** from the course coordinator. Retain a working EXTI baseline; do not redesign the 15-lab plan.
 
 ## Progress
 
@@ -23,8 +24,8 @@ There are **15 agreed core labs** in two phases, plus an optional playground. Th
 |---|---|---|
 | [01](lab01-debugger-cpu/README.md) | Debugger, CPU and assembly | **Completed — A/B/C** |
 | [02](lab02-memory-linker/README.md) | Flash/RAM, linker, startup, stack and heap | **Completed — A/B; C achieved with a tutor hint** |
-| 03 | GPIO polling → interrupts | **Current — instructor/start prompt ready** |
-| 04 | SPI polling | Planned |
+| 03 | GPIO polling → interrupts | **Completed — A/B; C achieved for guided, requirement-dependent challenge** |
+| 04 | SPI polling | **Next — start prompt pending** |
 | 05 | SPI interrupts and DMA | Planned |
 | 06 | Faults/traps and MPU | Planned |
 | 07 | RTOS and context switching | Planned |

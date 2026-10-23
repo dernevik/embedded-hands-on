@@ -1,6 +1,6 @@
 # Future Ideas & Commitments
 
-**Updated:** 2026-10-18 · **Purpose:** a durable parking place for curiosity, *not* a backlog or shopping obligation. The agreed core is [Labs 1–15](roadmap.md); ideas here cannot become prerequisites unless explicitly agreed. Status terms: **Planned** = already part of core roadmap, **Deferred** = expressed interest kept for later, **Proposed** = suggestion not adopted as a commitment. Hardware choices require compatibility checks before purchase.
+**Updated:** 2026-10-23 · **Purpose:** a durable parking place for curiosity, *not* a backlog or shopping obligation. The agreed core is [Labs 1–15](roadmap.md); ideas here cannot become prerequisites unless explicitly agreed. Status terms: **Planned** = already part of core roadmap, **Deferred** = expressed interest kept for later, **Proposed** = suggestion not adopted as a commitment. Hardware choices require compatibility checks before purchase.
 
 ## Explicit future interest: Zig on STM32
 
@@ -56,7 +56,10 @@
 | **Lauterbach TRACE32 versus GDB/ST-LINK; optional J-Link** | **Deferred** comparison, no extra probe required or known available | After basic debugger skills; only buy on real need |
 | **GDB command scripting / automated breakpoints** | **Deferred** after a non-blocking Lab 1 experiment | Optional GDB/OpenOCD exercise |
 | **PulseView and real SPI signal decoding** | **Already planned** | Lab 4 |
-| **Optional `__WFI()` and GPIO/logicanalyzer interrupt-response timing** | **Optional**, not Lab 3 completion requirements | Lab 3 extension or later |
+| **Optional `__WFI()` and GPIO/logicanalyzer interrupt-response timing** | **Deferred**, not completed in Lab 3 | Optional future interrupt/timing experiment |
+| **Hardware timer IRQs (TIM2/TIM3/TIM4/TIM5), cycle-accurate DWT timing and interrupt-latency/WCET exploration** | **Deferred after Lab 3**, not part of the measured 4.31× superloop-throughput comparison | A future timing-focused mini-lab, if wanted |
+| **Button bounce/debounce with logic-analyzer evidence** | **Deferred after Lab 3**; not measured or implemented there | Optional peripheral/signal experiment |
+| **Service-oriented communication / vsomeip comparison** | **Proposed after Lab 3**, not part of the core SPI/CAN plan | Future architecture discussion, if wanted |
 | **Revisit local `static`, scope vs storage duration, stack/ABI/optimization** | **Deferred reinforcement** from observed Lab 2 misconception, corrected with evidence | Natural callback/task/buffer example; no repeat lab |
 | **Allocation strategies, pools, fragmentation, lifetime and safety restrictions** | **Deferred** deeper mechanism | RTOS, Zig allocator comparison or platform software |
 | **Extra USB-UART adapter / separate logging path** | **Proposed**, not required by existing ST-LINK setup | Only if a new experiment needs it |
