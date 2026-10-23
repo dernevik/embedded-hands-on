@@ -293,7 +293,9 @@ A normal Cortex-M4 basic exception frame contains eight automatically stacked wo
 | +0x18 | PC |
 | +0x1C | xPSR |
 
-In the **Debugger Console** (not the ordinary build Console), try:
+Open the **Console** view if it is hidden (for example, via **Window → Show View → Console**). Use the console-selection dropdown to choose the **Debugger Console / GDB console**, rather than the build/output console; the exact label can vary between CubeIDE versions.
+
+In that Debugger Console, try:
 
 ```gdb
 info registers
@@ -437,6 +439,8 @@ Restore the `if` version afterward: it is the behavior selected for this referen
 This experiment is optional and changes the build configuration. Preserve a known-good EXTI version before starting.
 
 ### Instrument the existing SysTick timebase
+
+**If you are working from the completed `main` branch, the final firmware already contains this SysTick instrumentation. Inspect the existing code and do not add duplicate definitions.** If you started from the polling baseline and built up the application yourself, add the following.
 
 In `main.c`, add to `USER CODE BEGIN PV`:
 
