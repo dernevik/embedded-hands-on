@@ -35,6 +35,7 @@ The **2026-09-30 DigiKey order has been received in full**, as confirmed by the 
 | Item | Quantity | Status / notes |
 |---|---:|---|
 | ESD work mat | 1 | Received. |
+| Ledsavers LED magnifying lamp (570 lm) | 1 | Purchased from Kjell & Company and in use as of 2026-10-24. Illuminated, arm-mounted magnifier for reading fine board markings and handling small connectors during Lab 4. |
 | Component organizer boxes | 2 | Received. |
 
 ## Status and scope
