@@ -8,7 +8,7 @@
 | Physical label | Role in Lab 4 | Onboard ST-LINK S/N | Verification |
 |---|---|---|---|
 | **Slave** | `lab04_spi_slave` | `066DFF505487525067192137` | Found using **Scan** in STM32CubeIDE's **ST-LINK S/N** selector while the slave board was the only board connected (2026-10-25). The same value was seen earlier in STLinkUpgrade. |
-| **Master** | `lab04_spi_master` | **To be recorded** | Identify by connecting only the master board, then scanning in its own debug configuration. Do not copy the slave S/N. |
+| **Master** | `lab04_spi_master` | `066CFF505487525067191634` | Identified using **Scan** in STM32CubeIDE's **ST-LINK S/N** selector and saved in the master project's debug configuration (2026-10-25). |
 
 These are **ST-LINK debug-probe serial numbers**, not STM32F446RE MCU unique device IDs. The ST-LINK probe is part of the NUCLEO board; its S/N is normally stable across target firmware flashes and ST-LINK firmware updates. Recheck if a board/probe is replaced or a tool reports a different ID.
 
@@ -20,12 +20,12 @@ For each project, with **only the intended board connected over USB** during ini
 2. In **Debugger**, select the ST-LINK GDB server with **SWD**.
 3. Check **ST-LINK S/N**, press **Scan**, and select the detected S/N.
 4. Click **Apply** to save it.
-5. Once both board IDs are recorded, verify that the slave and master configurations have **different** S/N values.
+5. The slave and master debug configurations have **different** S/N values; both were configured and saved in STM32CubeIDE.
 
 | Debug launch configuration | Expected S/N |
 |---|---|
 | `lab04_spi_slave Debug` | `066DFF505487525067192137` |
-| `lab04_spi_master Debug` | **To be recorded** |
+| `lab04_spi_master Debug` | `066CFF505487525067191634` |
 
 Binding a launch configuration to a specific ST-LINK helps prevent accidentally debugging or flashing the other board: if the selected probe is not available, the launch should fail rather than silently targeting a different probe. This setting belongs to the **debug launch configuration**; it is **not a global lock** on all programming methods. Verify the selected target when using other launch configurations, programming tools or workspaces. The launch configuration may be stored locally in the CubeIDE workspace rather than automatically versioned in this repository.
 
