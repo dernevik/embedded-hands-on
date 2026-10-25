@@ -1,6 +1,6 @@
 # Future Ideas & Commitments
 
-**Updated:** 2026-10-23 · **Purpose:** a durable parking place for curiosity, *not* a backlog or shopping obligation. The agreed core is [Labs 1–15](roadmap.md); ideas here cannot become prerequisites unless explicitly agreed. Status terms: **Planned** = already part of core roadmap, **Deferred** = expressed interest kept for later, **Proposed** = suggestion not adopted as a commitment. Hardware choices require compatibility checks before purchase.
+**Updated:** 2026-10-25 · **Purpose:** a durable parking place for curiosity, *not* a backlog or shopping obligation. The agreed core is [Labs 1–15](roadmap.md); ideas here cannot become prerequisites unless explicitly agreed. Status terms: **Planned** = already part of core roadmap, **Deferred** = expressed interest kept for later, **Proposed** = suggestion not adopted as a commitment. Hardware choices require compatibility checks before purchase.
 
 ## Explicit future interest: Zig on STM32
 
@@ -24,6 +24,7 @@
 | **DC motor / stepper control** | Physical motion and timing: timers/PWM, I2C driver, power domains and later encoder/feedback control. | Lab 3 or later | Motor driver/shield required; **do not power motors from Nucleo USB/GPIO**. Verify external motor supply, current limits and inductive-load protection. |
 | **IMU sensor acquisition** | Actual periodic sampling, I2C/SPI, sensor IRQ, FIFO, calibration and timing. | Lab 3–5 | Check 3.3 V logic, breakout regulator/level shifting and MCU pin mapping. |
 | **Ethernet over SPI** | STM32 → SPI Ethernet controller (e.g. W5500) → network; combine drivers, IRQ, buffers, protocol layers and throughput. | Lab 4/5 | Verify module/shield voltage levels, SPI and reset/interrupt pin mapping; Ethernet/network-stack setup is extra scope. |
+| **External non-volatile memory via SPI (EEPROM or NOR flash)** | Connect a breadboard-friendly DIP-8 memory IC; write bytes, read back via SPI, inspect HAL buffers in the debugger, then power-cycle and verify persistence. Contrast normal SPI access (read via firmware into RAM) with optional later QUADSPI memory-mapped access. | After Lab 4 | **Proposed 2026-10-25 by learner**, not a purchase or new core lab. Candidate: Microchip 25LC256-I/P SPI EEPROM (32 KB, PDIP-8; check exact voltage, pinout and stock at purchase). Verify 3.3 V compatibility, WP/HOLD levels, decoupling and shared ground before wiring. |
 | **Servo control** | Potentiometer/joystick → ADC → PWM or external I2C PWM driver → moving servo. | Lab 3 or later | A servo needs suitable separate power; check control-signal voltage, peak currents and common ground. |
 
 **Ideas mentioned in the 2026-10-17 conversation:** CAN transceiver hardware is closest to automotive work; a little SPI TFT could become a reusable status display; a motor shield adds physical motion. Those were recommendations, **not a purchasing decision or agreed priority**. Buy only when a specific next-weekend experiment feels exciting.
