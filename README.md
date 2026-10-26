@@ -50,6 +50,8 @@ At natural stopping points, preserve a short `SESSION CHECKPOINT`, a **last know
 
 ## Hardware and environment
 
+**Hardware safety gate:** Before powering any new board-to-board or instrument connection, check the official pinout and connector orientation, validate GND with an unpowered continuity test, and ensure no signal drives an unpowered board. See [Hardware wiring and measurement safety](docs/hardware-safety.md), including the Lab 4 CN10/AVDD and back-powering lessons.
+
 Verified for Lab 1–2: **NUCLEO-F446RE / STM32F446RE (Arm Cortex-M4)**, onboard ST-LINK over SWD, **Windows 11**, **STM32CubeIDE 2.2.0**. Two Nucleo boards, an 8-channel USB logic analyzer and prototyping accessories were ordered for later experiments. The Raspberry Pi/Linux workstation remains an optional future idea, not a current prerequisite.
 
 ## Repository guide
