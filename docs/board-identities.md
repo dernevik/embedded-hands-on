@@ -37,6 +37,6 @@ Binding a launch configuration to a specific ST-LINK helps prevent accidentally 
 - The current master application performs its SPI exchange once shortly after startup. When powering/resetting master, arrange for the slave firmware to be **running** (not debugger-suspended) and armed for the transfer.
 - Keep SPI pins disconnected when changing firmware or investigating an unknown GPIO configuration.
 
-**Hardware safety prerequisite:** Consult [hardware-safety.md](hardware-safety.md) before reconnecting SPI and logic-analyzer leads. The Lab 4 experiment exposed possible CN10 pin 7 (AVDD) vs pin 9 (GND) confusion and likely back-powering when the slave's USB supply was disconnected. Verify connector orientation, GND continuity and all attached boards' power states before energizing.
+**Hardware wiring guidance:** See [hardware-safety.md](hardware-safety.md) for optional pre-power checks and lessons from Lab 4. The Lab 4 experiment exposed possible CN10 pin 7 (AVDD) vs pin 9 (GND) confusion and likely back-powering when the slave's USB supply was disconnected. Verify connector orientation, GND continuity and all attached boards' power states before energizing.
 
 Related equipment list: [inventory.md](inventory.md). These S/N values uniquely identify physical debug hardware; avoid posting them in unrelated public logs/screenshots when not needed.
