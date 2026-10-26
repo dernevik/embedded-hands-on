@@ -1,9 +1,9 @@
 # Hardware wiring and measurement safety
 
 **Updated:** 2026-10-26  
-**Status:** Mandatory pre-power checklist for hands-on board-to-board experiments, especially Lab 4 (SPI polling).
+**Status:** Practical pre-power checklist and lessons learned for hands-on board-to-board experiments, especially Lab 4 (SPI polling). The learner owns decisions and responsibility for their hardware; this is guidance, not a course requirement.
 
-> **Stop before applying USB power if a connector position, GND reference, voltage level or board power state is uncertain.** Firmware and debug success do not substitute for electrical verification.
+> **Recommended precaution:** If a connector position, GND reference, voltage level or board power state is uncertain, pause before applying power and verify it. Firmware and debug success do not substitute for electrical verification.
 
 ## Before connecting or changing any wires
 
@@ -43,13 +43,13 @@ During a separate test, the **slave board's power LED was observed blinking desp
 
 The learning objective is a repeatable process, not an assumption about who should have caught a mistake:
 
-1. Treat **schematic/pinout inspection + ground/voltage/power-state verification** as a *mandatory gate* before energizing hardware.
+1. Treat **schematic/pinout inspection + ground/voltage/power-state verification** as a recommended pre-power habit, not an imposed lab requirement.
 2. Separate **functional proof** (UART/SPI exchanges, debugger, logic traces) from **electrical safety proof**.
 3. Do not trust a visual/photo-based 'looks right' sign-off as sufficient, particularly with two-row connectors.
-4. Make the instructor explicitly ask for power-state and ground verification, not merely give a warning after suspicious behavior.
+4. The instructor should explain relevant power-state and ground risks and offer verification steps without treating them as additional pass/fail requirements; the learner makes the decisions.
 
 ## Note to the course coordinator / future Lab 4 handoff
 
-**Carry this incident and its preventive checklist into `COURSE HANDOFF — LAB 4`.** The Lab 4 instructor should report both the apparent one-row CN10/AVDD-versus-GND connection error and the observed likely back-powering of an unpowered slave. Note that the assistant's earlier photo-based assurances and instructions were insufficiently conservative. Make diagram verification, multimeter continuity checks and powering *all* linked boards explicit safety gates for subsequent hardware labs. **Do not redesign the agreed lab sequence**; apply the lesson as a cross-lab bench practice.
+**Carry this incident and its preventive checklist into `COURSE HANDOFF — LAB 4`.** The Lab 4 instructor should report both the apparent one-row CN10/AVDD-versus-GND connection error and the observed likely back-powering of an unpowered slave. Note that the assistant's earlier photo-based assurances and instructions were insufficiently conservative. Recommend diagram verification, multimeter continuity checks and ensuring compatible power states for all linked boards in subsequent hardware labs; keep these as learner-controlled practices, not stricter course requirements. The learner retains responsibility for hardware decisions. **Do not redesign the agreed lab sequence**; apply the lesson as a cross-lab bench practice.
 
 This document is an operational safety note, not a substitute for the device datasheets and electrical absolute maximum ratings.
