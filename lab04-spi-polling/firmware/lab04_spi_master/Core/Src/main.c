@@ -46,6 +46,10 @@ SPI_HandleTypeDef hspi1;
 uint8_t master_tx[2] = {0x01, 0x37};
 uint8_t master_rx[2] = {0};
 HAL_StatusTypeDef spi_status = HAL_ERROR;
+uint8_t dummy_tx[2] = {0x00, 0x00};
+uint8_t response_rx[2] = {0};
+
+HAL_StatusTypeDef response_status = HAL_ERROR;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -112,6 +116,24 @@ int main(void)
   );
 
   /* Deselect slave: CS = HIGH */
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, GPIO_PIN_SET);
+
+  /* Allow slave to process command and prepare response */
+  HAL_Delay(1);
+
+  /* Select slave for response transaction */
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, GPIO_PIN_RESET);
+
+  /* Generate clocks to receive calculated response */
+  response_status = HAL_SPI_TransmitReceive(
+      &hspi1,
+      dummy_tx,
+      response_rx,
+      2,
+      100
+  );
+
+  /* Deselect slave */
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_6, GPIO_PIN_SET);
   /* USER CODE END 2 */
 

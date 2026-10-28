@@ -45,7 +45,10 @@ SPI_HandleTypeDef hspi1;
 /* USER CODE BEGIN PV */
 uint8_t slave_tx[2] = {0xA5, 0x5A};
 uint8_t slave_rx[2] = {0};
+uint8_t response_tx[2] = {0};
 HAL_StatusTypeDef spi_status = HAL_ERROR;
+uint8_t response_rx[2] = {0};
+HAL_StatusTypeDef response_status = HAL_ERROR;
 
 /* USER CODE END PV */
 
@@ -97,6 +100,27 @@ int main(void)
       &hspi1,
       slave_tx,
       slave_rx,
+      2,
+      HAL_MAX_DELAY
+  );
+
+  /* Prepare response based on the received command */
+  if ((spi_status == HAL_OK) && (slave_rx[0] == 0x01U))
+  {
+      response_tx[0] = slave_rx[0] | 0x80U;
+      response_tx[1] = slave_rx[1];
+  }
+  else
+  {
+      response_tx[0] = 0xFFU;
+      response_tx[1] = 0x00U;
+  }
+
+  /* Wait for master to clock out the calculated response */
+  response_status = HAL_SPI_TransmitReceive(
+      &hspi1,
+      response_tx,
+      response_rx,
       2,
       HAL_MAX_DELAY
   );
