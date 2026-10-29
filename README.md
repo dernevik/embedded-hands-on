@@ -16,7 +16,7 @@ There are **15 agreed core labs** in two phases, plus an optional playground. Th
 - **Artifacts verified on GitHub:** [Lab 3 README](lab03-interrupts/README.md) and [notes](lab03-interrupts/notes.md); [Lab 4 README](lab04-spi-polling/README.md), [notes](lab04-spi-polling/notes.md), both master/slave firmware projects and two [PulseView captures](lab04-spi-polling/captures/).
 - **Next:** **Lab 5 — SPI Interrupts & DMA.** Preserve the known-good Lab 4 polling firmware and measurements before modifying transfer mechanisms. No additional hardware purchase or analog fault investigation is required to progress.
 
-**NEXT:** When ready, ask the course coordinator for the **Lab 5 instructor start prompt**. Reuse the Lab 4 hardware, wiring and baseline. The next question is **what the CPU does while SPI transfers proceed through interrupts or DMA**, not how to redesign the request/response protocol.
+**NEXT:** Start **Lab 5 — SPI Interrupts & DMA** in a separate instructor chat using the **start prompt already supplied by the course coordinator**. First re-establish the known-good Lab 4 two-board polling transfer and PulseView capture; then begin the first small interrupt-versus-polling experiment. Lab 4 firmware and measurements remain the reference baseline.
 
 ## Progress
 
