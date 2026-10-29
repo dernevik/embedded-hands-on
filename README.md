@@ -10,12 +10,13 @@ There are **15 agreed core labs** in two phases, plus an optional playground. Th
 
 **As of 2026-10-29**
 
-- **Completed:** **Labs 1–4**, approved by the course coordinator after review of instructor handoffs. Lab 4: **A/B achieved; C achieved in a guided debugging investigation**, without proof of the exact electrical mechanism of the observed bit-shift fault.
-- **Next core topic:** **Lab 5 — SPI Interrupts & DMA**, reusing the working two-board SPI1 setup and comparing asynchronous completion/CPU involvement with the Lab 4 polling baseline.
-- **Lab 4 verified reference:** [master/slave firmware and guide](lab04-spi-polling/README.md), [personal notes](lab04-spi-polling/notes.md), and two captured PulseView exchanges in [`lab04-spi-polling/captures/`](lab04-spi-polling/captures/) (including `.sr` data and `.pvs` session settings). The final one-shot protocol uses two CS-low transfers: request `01 37` / initial reply `A5 5A`, then dummy `00 00` / computed response `81 37`.
-- **Tools and hardware:** both NUCLEO-F446RE boards and the SparkFun 8-channel analyzer have now been used in real SPI experiments. Verified pin mapping, board identity workflow and practical wiring/measurement guidance are documented. No additional purchase or repeat lab is required before Lab 5.
+- **Completed:** **Labs 1–4**, approved by the course coordinator after review of their instructor handoffs. Lab 4: **A/B achieved; C achieved for guided SPI debugging, with the exact electrical cause not proven**.
+- **Lab 4 demonstrated:** Two physical NUCLEO-F446RE boards exchanged full-duplex SPI1 data at a nominal 328.125 kHz SCK. The final one-shot, two-transaction request/response protocol was verified in both debuggers and PulseView: request `01 37` / initial MISO `A5 5A`, then dummy MOSI `00 00` / computed response `81 37`.
+- **Measurement and fault insight:** Analyzer-connection state correlated with reproducible one-bit data misalignment. Enabling SPI before asserting CS, with a 1 ms settling delay, restored correct behavior in the tested setup; the precise analog/electrical mechanism remains **unverified**.
+- **Artifacts verified on GitHub:** [Lab 3 README](lab03-interrupts/README.md) and [notes](lab03-interrupts/notes.md); [Lab 4 README](lab04-spi-polling/README.md), [notes](lab04-spi-polling/notes.md), both master/slave firmware projects and two [PulseView captures](lab04-spi-polling/captures/).
+- **Next:** **Lab 5 — SPI Interrupts & DMA.** Preserve the known-good Lab 4 polling firmware and measurements before modifying transfer mechanisms. No additional hardware purchase or analog fault investigation is required to progress.
 
-**NEXT:** When ready, request the **Lab 5 — SPI Interrupts & DMA start prompt** from the course coordinator. Keep the completed Lab 4 polling firmware and PulseView captures as a last-known-good baseline; do not overwrite them while introducing asynchronous transfers.
+**NEXT:** When ready, ask the course coordinator for the **Lab 5 instructor start prompt**. Reuse the Lab 4 hardware, wiring and baseline. The next question is **what the CPU does while SPI transfers proceed through interrupts or DMA**, not how to redesign the request/response protocol.
 
 ## Progress
 
@@ -23,8 +24,8 @@ There are **15 agreed core labs** in two phases, plus an optional playground. Th
 |---|---|---|
 | [01](lab01-debugger-cpu/README.md) | Debugger, CPU and assembly | **Completed — A/B/C** |
 | [02](lab02-memory-linker/README.md) | Flash/RAM, linker, startup, stack and heap | **Completed — A/B; C achieved with a tutor hint** |
-| [03](lab03-interrupts/README.md) | GPIO polling → interrupts | **Completed — A/B; guided, requirement-specific C** |
-| [04](lab04-spi-polling/README.md) | SPI polling, two-board full-duplex and PulseView | **Completed — A/B; guided C with unproven exact electrical cause** |
+| [03](lab03-interrupts/README.md) | GPIO polling → interrupts | **Completed — A/B; guided C (requirement-dependent)** |
+| [04](lab04-spi-polling/README.md) | Two-board SPI polling, PulseView and request/response | **Completed — A/B; guided C (electrical root cause unproven)** |
 | 05 | SPI interrupts and DMA | **Next — start prompt pending** |
 | 06 | Faults/traps and MPU | Planned |
 | 07 | RTOS and context switching | Planned |
@@ -51,7 +52,7 @@ At natural stopping points, preserve a short `SESSION CHECKPOINT`, a **last know
 
 **Hardware wiring guidance:** Before powering a new board-to-board or instrument connection, it is prudent to check the official pinout and connector orientation, validate GND with an unpowered continuity test, and avoid driving unpowered boards. The learner owns the hardware decisions; these are recommendations, not additional lab requirements. See [Hardware wiring and measurement safety](docs/hardware-safety.md), including the Lab 4 CN10/AVDD and back-powering lessons.
 
-Verified through Lab 4: **two NUCLEO-F446RE boards / STM32F446RE (Arm Cortex-M4)**, onboard ST-LINK over SWD, **Windows 11**, **STM32CubeIDE 2.2.0**, standalone **STM32CubeMX 6.18.1**, STM32CubeF4 1.28.3, and **SparkFun TOL-18627 logic analyzer with PulseView**. Two-board SPI and digital captures are demonstrated, not merely planned. The Raspberry Pi/Linux workstation and new shields remain optional future ideas.
+Verified through Lab 4: **2 × NUCLEO-F446RE / STM32F446RE (Arm Cortex-M4)**, onboard ST-LINK/SWD, **Windows 11**, **STM32CubeIDE 2.2.0**, standalone **STM32CubeMX 6.18.1**, and the **SparkFun TOL-18627 logic analyzer with PulseView**. The DigiKey equipment order was received; two-board SPI and logic capture are now demonstrated. The Raspberry Pi/Linux workstation remains optional, not a prerequisite.
 
 ## Repository guide
 
@@ -59,9 +60,9 @@ Verified through Lab 4: **two NUCLEO-F446RE boards / STM32F446RE (Arm Cortex-M4)
 - [`docs/future-ideas.md`](docs/future-ideas.md) — preserved deferred interests, including **Zig on STM32** and **six optional playground labs** (CAN, TFT, motors, IMU, Ethernet-over-SPI and servos).
 - [Lab 1 README](lab01-debugger-cpu/README.md) / [notes](lab01-debugger-cpu/notes.md) — reproducible instructions / personal observations.
 - [Lab 2 README](lab02-memory-linker/README.md) / [notes](lab02-memory-linker/notes.md) — reproducible instructions / personal observations.
-- [Lab 3 README](lab03-interrupts/README.md) / [notes](lab03-interrupts/notes.md) — external interrupts, exception entry and deferred event work.
-- [Lab 4 README](lab04-spi-polling/README.md) / [notes](lab04-spi-polling/notes.md) / [captures](lab04-spi-polling/captures/) — reproducible two-board SPI transfers, insights and actual PulseView evidence.
-- [Hardware wiring and measurement guidance](docs/hardware-safety.md) and [board identities](docs/board-identities.md) — practical notes for using two identical boards and connecting instruments.
+- [Lab 3 README](lab03-interrupts/README.md) / [notes](lab03-interrupts/notes.md) — GPIO polling, EXTI and exception-stack evidence.
+- [Lab 4 README](lab04-spi-polling/README.md) / [notes](lab04-spi-polling/notes.md) / [captures](lab04-spi-polling/captures/) — two-board SPI, request/response and physical PulseView evidence.
+- [Board identities](docs/board-identities.md) and [hardware safety](docs/hardware-safety.md) — physical setup notes and learner-controlled wiring practices.
 - `labNN/firmware/` — actual firmware sources/configuration when added for that lab.
 - [`docs/inventory.md`](docs/inventory.md) / [`docs/shopping-list.md`](docs/shopping-list.md) — equipment records; verify their freshness before using them as purchase status.
 
