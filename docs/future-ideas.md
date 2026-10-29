@@ -1,6 +1,6 @@
 # Future Ideas & Commitments
 
-**Updated:** 2026-10-25 · **Purpose:** a durable parking place for curiosity, *not* a backlog or shopping obligation. The agreed core is [Labs 1–15](roadmap.md); ideas here cannot become prerequisites unless explicitly agreed. Status terms: **Planned** = already part of core roadmap, **Deferred** = expressed interest kept for later, **Proposed** = suggestion not adopted as a commitment. Hardware choices require compatibility checks before purchase.
+**Updated:** 2026-10-29 · **Purpose:** a durable parking place for curiosity, *not* a backlog or shopping obligation. The agreed core is [Labs 1–15](roadmap.md); ideas here cannot become prerequisites unless explicitly agreed. Status terms: **Planned** = already part of core roadmap, **Deferred** = expressed interest kept for later, **Proposed** = suggestion not adopted as a commitment. Hardware choices require compatibility checks before purchase.
 
 ## Explicit future interest: Zig on STM32
 
@@ -39,6 +39,8 @@
 | **Races, cache/coherency, memory barriers and why `volatile` is not synchronization** | **Planned** in accepted Phase 2 | Lab 11 |
 | **MPU, isolation, private/shared memory, safety partitions and ASIL-related concepts** | **Planned** in Labs 6 and 13–14; user interest | Lab 6 and Phase 2; do not equate exercises with ASIL certification |
 | **Heartbeat, fault detection vs containment, degraded operation and recovery** | **Planned** | Labs 14–15 |
+| **SPI request/response robustness: slave READY/BUSY/ERROR, READY GPIO, timeouts, transaction IDs and application quality flags** | **Deferred from Lab 4**; discussed and reasoned about, not implemented as a production protocol | Optional follow-on to Lab 5 or architecture mini-experiment; not a mandatory Lab 5 requirement |
+| **SPI HAL versus STM32 LL versus minimal register-level implementation** | **Proposed from Lab 4** to compare code size, branching/overhead and observability; not implemented | Only if a focused low-level optimization experiment becomes interesting |
 | **Platform software architecture: `afw_core`, `vdb_core`, applications, configured/generated YAML interfaces, runtime dispatch, diagnostics/COM, MCAL and device drivers** | **Long-term learner interest; Phase 3 only Proposed** | After Phase 2, or small links at suitable earlier labs |
 | **Walk data/control/fault/configuration paths end-to-end** | **Proposed** teaching approach for possible Phase 3 | Revisit after Phase 2 |
 | **YAML/model → generated C/data → generic runtime framework** | **Proposed** architecture experiment | Possible Phase 3 |
@@ -56,7 +58,7 @@
 | **Systematic use of datasheets, reference manuals and errata** | **Deferred** as a standalone topic; useful ongoing practice | When pin mapping, peripheral status or fault investigation calls for it |
 | **Lauterbach TRACE32 versus GDB/ST-LINK; optional J-Link** | **Deferred** comparison, no extra probe required or known available | After basic debugger skills; only buy on real need |
 | **GDB command scripting / automated breakpoints** | **Deferred** after a non-blocking Lab 1 experiment | Optional GDB/OpenOCD exercise |
-| **PulseView and real SPI signal decoding** | **Already planned** | Lab 4 |
+| **PulseView and real SPI signal decoding** | **Completed in Lab 4** — working 16 MHz digital capture, SPI decoding and saved measurement artifacts | Reuse as evidence in Lab 5 |
 | **Oscilloscope for analog signal-integrity investigations** | **Proposed after Lab 4 (2026-10-28)**; no purchase decision. The existing SparkFun logic analyzer remains adequate for digital SPI decoding; an oscilloscope could reveal SCK voltage levels, rise/fall times, ringing, glitches and possible measurement loading/ground effects that 16 MHz digital sampling cannot resolve. Consider a compact USB instrument (e.g. Digilent Analog Discovery) versus a 4-channel bench oscilloscope (e.g. Rigol DHO804); verify current specs and value before buying. | Revisit only if a future experiment needs analog evidence or the bench setup grows; not required for Lab 4 or subsequent core labs |
 | **Optional `__WFI()` and GPIO/logicanalyzer interrupt-response timing** | **Deferred**, not completed in Lab 3 | Optional future interrupt/timing experiment |
 | **Hardware timer IRQs (TIM2/TIM3/TIM4/TIM5), cycle-accurate DWT timing and interrupt-latency/WCET exploration** | **Deferred after Lab 3**, not part of the measured 4.31× superloop-throughput comparison | A future timing-focused mini-lab, if wanted |
