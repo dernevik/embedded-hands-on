@@ -1,6 +1,6 @@
 # Embedded Hands-on — Roadmap
 
-**Agreed core curriculum:** 15 labs in two phases. **Status:** 2026-10-23. Labs 1–3 approved; Lab 4 is next. Topics and ordering are agreed, but future pin mappings, hardware choices and exact implementations are not necessarily validated.
+**Agreed core curriculum:** 15 labs in two phases. **Status:** 2026-10-29. Labs 1–4 approved; Lab 5 is next. Topics and ordering are agreed, but future hardware choices and exact implementations are not necessarily validated.
 
 ## Goal and teaching contract
 
@@ -16,22 +16,28 @@ The course coordinator owns progression and final acceptance; an individual inst
 
 ## Phase 1 — MCU Foundations (Labs 1–8)
 
-**Hardware baseline:** STM32 NUCLEO-F446RE, Arm Cortex-M4; Windows 11, STM32CubeIDE 2.2.0 and onboard ST-LINK/SWD verified in Labs 1–3. Lab 3 also used standalone STM32CubeMX 6.18.1 / FW_F4 1.28.3, with the full CubeMX/CubeIDE project kept inside the repository.
+**Hardware baseline:** Two STM32 NUCLEO-F446RE boards, Arm Cortex-M4, Windows 11, STM32CubeIDE 2.2.0, standalone STM32CubeMX 6.18.1 / FW_F4 1.28.3, onboard ST-LINK/SWD. Lab 4 verified connected boards and the SparkFun TOL-18627 logic analyzer / PulseView. Full CubeMX/CubeIDE projects live inside the repository.
 
 | Lab | Topic | Planned observation / learning goal | Status |
 |---|---|---|---|
 | 1 | Debugger, CPU & assembly | Build/flash/debug; registers vs RAM, PC/SP/LR, instructions, nested calls and a controlled logic defect. | **Completed, A/B/C achieved.** |
 | 2 | Flash/RAM, stack, heap & linker | Linker sections/map, VMA/LMA, `Reset_Handler`, actual `.data` copy/`.bss` clear, stack, optimization, `malloc/free`, layout-change diagnosis. | **Completed, A/B achieved; C achieved with tutor hint.** |
 | 3 | GPIO polling → interrupts | USER button polling baseline → real EXTI/NVIC; vector table, actual IRQ handler, pending/acknowledgement, hardware exception frame, IPSR, LR/EXC_RETURN, deferred work, guided coalescing challenge and measured loop throughput. | **Completed; A/B achieved; C guided and requirement-dependent.** |
-| 4 | SPI polling | Two NUCLEO-F446RE boards as host/target; SCK/MOSI/MISO/CS/GND; observe transactions and full-duplex timing through PulseView. | **Next; instructor start prompt pending.** |
-| 5 | SPI interrupts + DMA | Reuse Lab 4 hardware and protocol; progress polling → IRQ → DMA; compare CPU workload, completion and complexity. | Planned |
+| 4 | SPI polling | Two NUCLEO-F446RE boards; full-duplex SPI1, blocking HAL, physical PulseView captures, two-transaction request/response and real debugging of bit-shift corruption. | **Completed; A/B achieved; C guided (exact electrical root cause unproven).** |
+| 5 | SPI interrupts + DMA | Reuse Lab 4's known-good two-board hardware and protocol; progress polling → IRQ → DMA; compare CPU work, asynchronous completion, buffering, synchronization and complexity. | **Next; instructor start prompt pending.** |
 | 6 | Faults/traps + MPU | Provoke and inspect fault conditions via PC/SP/LR, fault status/address and the offending instruction; distinguish linker placement from hardware access protection. | Planned |
 | 7 | RTOS & context switching | Two tasks, stacks, scheduler/context switch, ISR → task, mutex/races/priority inversion. | Planned |
 | 8 | Watchdog, reset & crash analysis | Intentional hang, watchdog reset, reset cause, startup and recovery/diagnostic information. | Planned |
 
 **Lab 3 evidence retained:** The physical USER input was **PC13**, with falling-edge **EXTI13 / EXTI15_10_IRQn (IRQ 40; exception 56)**. The learner stopped inside the real C IRQ handler, observed `SCB->ICSR.VECTACTIVE = 56`, `LR = 0xFFFFFFF9`, W1C acknowledgement of `EXTI->PR`, and the hardware-stacked exception frame in RAM. The saved `R2` held a previous LOW `GPIOC->IDR` read despite the button later returning HIGH; `PC = 0x08001030` resumed at the next interrupted instruction. A brief ISR passed events to the Thread-mode superloop. The guided C test proved that **one reaction for multiple events** is a defect only under a **one-reaction-per-event requirement**, not when event coalescing is intentional. At `-O2` the measured loop throughputs were 6,457,499 iterations/s (EXTI version) and 1,499,100 iterations/s (polling with BSP LED calls), **4.31× for these implementations only**, not an intrinsic interrupt speedup. `volatile` removal did not alter observed assembler in that specific build, which is not a general guarantee.
 
-**Lab 3 artifacts:** Known-good polling `fd96486`, EXTI milestone `b73548c`, restored `-O0` `feb6498`, updated ignore rule `bf7baa7`. The final EXTI variant was visible on `main` at the 2026-10-23 repo check. English Lab 3 `README.md` and `notes.md` are separate instructor deliverables still pending in the remote repository at that check; no repeat lab is required. **Next: Lab 4 SPI polling.**
+**Lab 3 artifacts:** Known-good polling `fd96486`, EXTI milestone `b73548c`, restored `-O0` `feb6498`, updated ignore rule `bf7baa7`. The final EXTI variant, [README](../lab03-interrupts/README.md) and [notes](../lab03-interrupts/notes.md) were present on GitHub at the 2026-10-29 check. No repeat lab is required.
+
+**Lab 4 evidence and accepted limits (2026-10-29):** Two NUCLEO-F446RE boards exchanged full-duplex SPI1 data through blocking `HAL_SPI_TransmitReceive()`. Both used mode 0, 8-bit frames and MSB-first; the master used software CS on PB6, the slave hardware NSS on PA4; PA5/PA7/PA6 were SCK/MOSI/MISO and both boards shared GND. With APB2 at 84 MHz and prescaler 256, nominal SCK was 328.125 kHz. The real one-shot two-transaction protocol was verified in master/slave memory and PulseView: request MOSI `01 37`, simultaneous initial MISO `A5 5A`, followed by dummy MOSI `00 00` and computed MISO `81 37`. In the slave's blocking call, the learner correctly predicted `TxXferCount = 1`, `RxXferCount = 2` before master clocking: software had queued one byte without any received frame. `HAL_OK` was not taken as proof of correct payload.
+
+**Lab 4 guided Level C:** Physical MISO `4A B4` and slave RX `80 9B` suggested a one-bit transfer misalignment. An A/B/A test correlated corruption with the logic analyzer's USB connection, and wrong data appeared in MCU RAM, not just the decoder. Enabling SPI before CS plus a 1 ms settling delay eliminated the fault in the tested setup. **The exact electrical root cause and contribution of each corrective step remain unproven.** This is accepted as guided practical debugging, not as a fully resolved analog diagnosis. Real `16 MHz` PulseView capture and a discovered accidental `20 kHz` sample-rate reset reinforced the limits of digital sampling. Board CN10 orientation, possible AVDD-vs-GND misconnection and plausible signal-line back-powering are documented in [hardware-safety.md](hardware-safety.md) as **learner-controlled precautions, not pass/fail gates**.
+
+**Lab 4 artifacts:** [Firmware and reproducible README](../lab04-spi-polling/README.md), [personal notes](../lab04-spi-polling/notes.md), two [saved SPI captures](../lab04-spi-polling/captures/) and [board identity notes](board-identities.md) were verified on GitHub. The application is deliberately **one-shot**, with fixed inter-transaction delays and no production-grade readiness/recovery protocol. Preserve this baseline for **Lab 5 — SPI interrupts and DMA**, rather than adding unplanned advanced protocol work.
 
 ## Phase 2 — Multicore, IPC, isolation and ECU-like complexity (Labs 9–15)
 
@@ -62,7 +68,7 @@ A parallel, **non-prerequisite** playground was suggested in the original SPI di
 - Original SPI demonstration expanded into a foundations-first course: **debugger and memory before SPI**, to reveal the mechanism beneath an API.
 - **15 labs, not 8 or 14:** Phase 1 remains Labs 1–8; consolidated Phase 2 is Labs 9–15.
 - Main aim is practical comprehension and evidence-based diagnostics, **not** low-level specialist speed or implementing AUTOSAR from scratch.
-- Lab 1 was accepted at **A/B/C**; Lab 2 at **A/B and guided C**, with a corrected `static`-storage prediction; **Lab 3 at A/B and guided, requirement-specific C**. No compulsory repeat labs.
+- Lab 1 was accepted at **A/B/C**; Lab 2 at **A/B and guided C**, with a corrected `static`-storage prediction; Lab 3 at **A/B and guided, requirement-specific C**; Lab 4 at **A/B and guided C** with an explicitly unresolved exact electrical mechanism. No compulsory repeat labs.
 - **Assembly is an observational microscope**, not a course in memorizing instruction sets.
 - The repo is the durable course reference: each lab's `README.md` helps another person reproduce the lab; `notes.md` captures personal observations. A separate tutor chat supplies a `COURSE HANDOFF` that the learner brings back to the coordinator.
 - **Low restart friction:** short checkpoints, an exact `NEXT:`, firmware baseline, tool versions and wiring pictures where useful; no heavyweight process or deadlines.
@@ -74,5 +80,7 @@ A parallel, **non-prerequisite** playground was suggested in the original SPI di
 - [Future ideas and commitments](future-ideas.md)
 - [Lab 1 reproducible instructions](../lab01-debugger-cpu/README.md) and [learning notes](../lab01-debugger-cpu/notes.md)
 - [Lab 2 reproducible instructions](../lab02-memory-linker/README.md) and [learning notes](../lab02-memory-linker/notes.md)
+- [Lab 3 instructions](../lab03-interrupts/README.md) and [learning notes](../lab03-interrupts/notes.md)
+- [Lab 4 instructions](../lab04-spi-polling/README.md), [learning notes](../lab04-spi-polling/notes.md) and [captures](../lab04-spi-polling/captures/)
 
 **Updating this file:** Change the agreed curriculum only when the learner and course coordinator explicitly decide. Update statuses after evidence-based lab approval; record interesting but uncommitted tangents in `future-ideas.md`. Keep the root README's `NEXT` current. 
