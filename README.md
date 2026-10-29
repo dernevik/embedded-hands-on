@@ -8,15 +8,15 @@ There are **15 agreed core labs** in two phases, plus an optional playground. Th
 
 ## Current state
 
-**As of 2026-10-23**
+**As of 2026-10-29**
 
-- **Completed:** **Lab 1, Lab 2 and Lab 3** — accepted by the course coordinator after review of the instructor handoffs. Lab 3: A/B achieved; C achieved for a guided, requirement-specific event-coalescing challenge.
-- **Next core topic:** **Lab 4 — SPI polling**, connecting two NUCLEO-F446RE boards and observing physical transactions with a USB logic analyzer/PulseView.
-- **Lab 3 repository baseline:** known-good polling commit `fd96486`; working EXTI milestone `b73548c`; debug `-O0` restored in `feb6498`; preference-file ignore rule updated in `bf7baa7` (remote commits verified on 2026-10-23).
-- **Lab 3 documentation:** `lab03-interrupts/notes.md` and `README.md` were requested as separate instructor deliverables and were not present in the remote repo at this check. Their completion does not block approval.
-- **No blocker:** continue with the working Windows / CubeIDE / ST-LINK environment. No Raspberry Pi, new shield or new MCU is required for Lab 4.
+- **Completed:** **Labs 1–4**, approved by the course coordinator after review of their instructor handoffs. Lab 4: **A/B achieved; C achieved for guided SPI debugging, with the exact electrical cause not proven**.
+- **Lab 4 demonstrated:** Two physical NUCLEO-F446RE boards exchanged full-duplex SPI1 data at a nominal 328.125 kHz SCK. The final one-shot, two-transaction request/response protocol was verified in both debuggers and PulseView: request `01 37` / initial MISO `A5 5A`, then dummy MOSI `00 00` / computed response `81 37`.
+- **Measurement and fault insight:** Analyzer-connection state correlated with reproducible one-bit data misalignment. Enabling SPI before asserting CS, with a 1 ms settling delay, restored correct behavior in the tested setup; the precise analog/electrical mechanism remains **unverified**.
+- **Artifacts verified on GitHub:** [Lab 3 README](lab03-interrupts/README.md) and [notes](lab03-interrupts/notes.md); [Lab 4 README](lab04-spi-polling/README.md), [notes](lab04-spi-polling/notes.md), both master/slave firmware projects and two [PulseView captures](lab04-spi-polling/captures/).
+- **Next:** **Lab 5 — SPI Interrupts & DMA.** Preserve the known-good Lab 4 polling firmware and measurements before modifying transfer mechanisms. No additional hardware purchase or analog fault investigation is required to progress.
 
-**NEXT:** Finish the separate Lab 3 `notes.md` and `README.md` with the instructor if desired, then request the **Lab 4 — SPI polling start prompt** from the course coordinator. Retain a working EXTI baseline; do not redesign the 15-lab plan.
+**NEXT:** When ready, ask the course coordinator for the **Lab 5 instructor start prompt**. Reuse the Lab 4 hardware, wiring and baseline. The next question is **what the CPU does while SPI transfers proceed through interrupts or DMA**, not how to redesign the request/response protocol.
 
 ## Progress
 
@@ -24,9 +24,9 @@ There are **15 agreed core labs** in two phases, plus an optional playground. Th
 |---|---|---|
 | [01](lab01-debugger-cpu/README.md) | Debugger, CPU and assembly | **Completed — A/B/C** |
 | [02](lab02-memory-linker/README.md) | Flash/RAM, linker, startup, stack and heap | **Completed — A/B; C achieved with a tutor hint** |
-| 03 | GPIO polling → interrupts | **Completed — A/B; C achieved for guided, requirement-dependent challenge** |
-| 04 | SPI polling | **Next — start prompt pending** |
-| 05 | SPI interrupts and DMA | Planned |
+| [03](lab03-interrupts/README.md) | GPIO polling → interrupts | **Completed — A/B; guided C (requirement-dependent)** |
+| [04](lab04-spi-polling/README.md) | Two-board SPI polling, PulseView and request/response | **Completed — A/B; guided C (electrical root cause unproven)** |
+| 05 | SPI interrupts and DMA | **Next — start prompt pending** |
 | 06 | Faults/traps and MPU | Planned |
 | 07 | RTOS and context switching | Planned |
 | 08 | Watchdog, reset and crash analysis | Planned |
@@ -52,7 +52,7 @@ At natural stopping points, preserve a short `SESSION CHECKPOINT`, a **last know
 
 **Hardware wiring guidance:** Before powering a new board-to-board or instrument connection, it is prudent to check the official pinout and connector orientation, validate GND with an unpowered continuity test, and avoid driving unpowered boards. The learner owns the hardware decisions; these are recommendations, not additional lab requirements. See [Hardware wiring and measurement safety](docs/hardware-safety.md), including the Lab 4 CN10/AVDD and back-powering lessons.
 
-Verified for Lab 1–2: **NUCLEO-F446RE / STM32F446RE (Arm Cortex-M4)**, onboard ST-LINK over SWD, **Windows 11**, **STM32CubeIDE 2.2.0**. Two Nucleo boards, an 8-channel USB logic analyzer and prototyping accessories were ordered for later experiments. The Raspberry Pi/Linux workstation remains an optional future idea, not a current prerequisite.
+Verified through Lab 4: **2 × NUCLEO-F446RE / STM32F446RE (Arm Cortex-M4)**, onboard ST-LINK/SWD, **Windows 11**, **STM32CubeIDE 2.2.0**, standalone **STM32CubeMX 6.18.1**, and the **SparkFun TOL-18627 logic analyzer with PulseView**. The DigiKey equipment order was received; two-board SPI and logic capture are now demonstrated. The Raspberry Pi/Linux workstation remains optional, not a prerequisite.
 
 ## Repository guide
 
@@ -60,6 +60,9 @@ Verified for Lab 1–2: **NUCLEO-F446RE / STM32F446RE (Arm Cortex-M4)**, onboard
 - [`docs/future-ideas.md`](docs/future-ideas.md) — preserved deferred interests, including **Zig on STM32** and **six optional playground labs** (CAN, TFT, motors, IMU, Ethernet-over-SPI and servos).
 - [Lab 1 README](lab01-debugger-cpu/README.md) / [notes](lab01-debugger-cpu/notes.md) — reproducible instructions / personal observations.
 - [Lab 2 README](lab02-memory-linker/README.md) / [notes](lab02-memory-linker/notes.md) — reproducible instructions / personal observations.
+- [Lab 3 README](lab03-interrupts/README.md) / [notes](lab03-interrupts/notes.md) — GPIO polling, EXTI and exception-stack evidence.
+- [Lab 4 README](lab04-spi-polling/README.md) / [notes](lab04-spi-polling/notes.md) / [captures](lab04-spi-polling/captures/) — two-board SPI, request/response and physical PulseView evidence.
+- [Board identities](docs/board-identities.md) and [hardware safety](docs/hardware-safety.md) — physical setup notes and learner-controlled wiring practices.
 - `labNN/firmware/` — actual firmware sources/configuration when added for that lab.
 - [`docs/inventory.md`](docs/inventory.md) / [`docs/shopping-list.md`](docs/shopping-list.md) — equipment records; verify their freshness before using them as purchase status.
 
